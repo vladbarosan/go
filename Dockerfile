@@ -3,7 +3,7 @@
 # Dockerfile for Golang
 #
 
-FROM buildpack-deps:jessie-curl
+FROM buildpack-deps:stretch-curl
 LABEL maintainer="appsvc-images@microsoft.com"
 
 
