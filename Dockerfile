@@ -1,9 +1,8 @@
-
 #
 # Dockerfile for Golang
 #
 
-FROM buildpack-deps:stretch-curl
+FROM alpine:3.7
 LABEL maintainer="appsvc-images@microsoft.com"
 
 
@@ -12,12 +11,12 @@ COPY startup/hostingstart.html /home/site/wwwroot/
 COPY startup/defaultstaticwebapp /defaulthome/hostingstart/
 COPY sshd_config /etc/ssh/
 
-RUN apt-get update \
-    && apt-get install -y apt-utils --no-install-recommends \
+RUN apk update \
+    && apk upgrade \
     && echo "root:Docker!" | chpasswd \
-    && echo "cd /home" >> /etc/bash.bashrc \
-    && apt update \
-    && apt install -y --no-install-recommends openssh-server vim curl wget tcptraceroute \
+    && echo "cd /home" >> ~/.profile \
+    && apk add --update --no-cache openrc openssh file findutils ca-certificates \
+    && rc-update add sshd \
     && chmod 755 /bin/entrypoint.sh \
     && mkdir -p /home/LogFiles/
 
